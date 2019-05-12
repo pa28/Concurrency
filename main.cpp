@@ -34,8 +34,7 @@ int main() {
         processFuture.input_push(x);
     }
 
-    processFuture.wait_input_empty();
-    processFuture.wait_pool_free();
+    processFuture.wait_input_empty().wait_pool_free();
 
     while (not processFuture.output_empty()) {
         std::cout << processFuture.output_pop_front() << '\n';

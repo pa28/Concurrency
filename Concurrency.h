@@ -289,14 +289,16 @@ namespace Concurrency {
         /**
          * @brief Wait until the input queue is empty.
          */
-        void wait_input_empty() {
+        process_future& wait_input_empty() {
             std::unique_lock<std::mutex> empty_lock(empty_input_mutex);
             empty_input_cv.wait(empty_lock, [this]() -> bool { return input_queue.empty(); });
+            return *this;
         }
 
-        void wait_pool_free() {
+        process_future& wait_pool_free() {
             std::unique_lock<std::mutex> empty_lock(empty_pool_mutex);
             empty_pool_cv.wait(empty_lock, [this]() -> bool { return finishing_futures.empty(); });
+            return *this;
         }
 
         /**
